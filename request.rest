@@ -1,0 +1,74 @@
+@base = http://localhost:5050
+@json = application/json
+@key = dev-local-key
+
+
+### -------------------------------------------------
+### HEALTH (no API key required)
+### -------------------------------------------------
+GET {{base}}/health
+
+
+
+### -------------------------------------------------
+### LIST DIRECTORY
+### -------------------------------------------------
+GET {{base}}/ls?path=client/src
+x-api-key: {{key}}
+
+
+
+### -------------------------------------------------
+### READ FILE
+### -------------------------------------------------
+POST {{base}}/read
+Content-Type: {{json}}
+x-api-key: {{key}}
+
+{
+  "path": "client/src/main.jsx"
+}
+
+
+
+### -------------------------------------------------
+### WRITE FILE (sandbox example)
+### -------------------------------------------------
+POST {{base}}/write
+Content-Type: {{json}}
+x-api-key: {{key}}
+
+{
+  "path": "server/sandbox/hello.txt",
+  "content": "hello\n"
+}
+
+
+
+### -------------------------------------------------
+### RUN COMMAND (example: npm -v)
+### -------------------------------------------------
+POST {{base}}/run
+Content-Type: {{json}}
+x-api-key: {{key}}
+
+{
+  "cmd": ["npm", "-v"]
+}
+
+
+
+### -------------------------------------------------
+### CHAT (BRAIN CONNECTED - PHI 2.7B)
+### -------------------------------------------------
+POST {{base}}/api/chat
+Content-Type: {{json}}
+x-api-key: {{key}}
+
+{
+  "messages": [
+    { "role": "system", "content": "You are Zoro. Be concise." },
+    { "role": "user", "content": "Say hello and tell me the command to check my Node version." }
+  ],
+  "temperature": 0.2
+}
